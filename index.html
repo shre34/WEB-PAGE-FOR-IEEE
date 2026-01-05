@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | IEEE Student Branch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #0066b3;
+            --dark-blue: #003b5c;
+            --light-blue: #e6f2ff;
+            --accent-yellow: #ffcd00;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #333333;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            background-color: var(--white);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+            line-height: 1;
+        }
+
+        .logo-sub {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--dark-blue);
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background-color: var(--light-blue);
+            padding: 60px 0 40px;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--dark-blue);
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--dark-gray);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 60px 0;
+        }
+
+        /* Event Album Styling */
+        .event-album {
+            margin-bottom: 70px;
+            scroll-margin-top: 30px;
+        }
+
+        .event-album:last-child {
+            margin-bottom: 0;
+        }
+
+        .event-header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 20px 25px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0;
+        }
+
+        .event-header h2 {
+            color: var(--white);
+            margin-bottom: 0;
+            font-size: 1.6rem;
+        }
+
+        .event-date {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-date i {
+            font-size: 0.9rem;
+        }
+
+        /* Photo Grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background-color: var(--light-gray);
+            border-radius: 0 0 8px 8px;
+            border: 1px solid var(--medium-gray);
+            border-top: none;
+        }
+
+        .photo-item {
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 240px;
+            position: relative;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            color: var(--white);
+            padding: 15px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .photo-item:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-count {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--white);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Quick Navigation */
+        .event-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .event-nav a {
+            text-decoration: none;
+            background-color: var(--white);
+            color: var(--dark-blue);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .event-nav a:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            padding: 50px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-blue);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 15px;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                text-align: center;
+                gap: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .event-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .event-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .event-date {
+                align-self: flex-start;
+            }
+
+            .photo-grid {
+                padding: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+
+            .photo-item {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-header {
+                padding: 40px 0 30px;
+            }
+
+            .gallery-section {
+                padding: 40px 0;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .photo-item {
+                height: 180px;
+            }
+
+            .event-nav {
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .event-nav a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo-container">
+                <div class="logo-text">
+                    <div class="logo-main">IEEE SB</div>
+                    <div class="logo-sub">STUDENT BRANCH</div>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="team.html">Committee</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Gallery</h1>
+            <p>Visual memories from our events, workshops, and celebrations. Explore photos from various IEEE Student Branch activities.</p>
+        </div>
+    </section>
+
+    <!-- Quick Event Navigation -->
+    <div class="container">
+        <div class="event-nav">
+            <a href="#inauguration">Inauguration</a>
+            <a href="#workshop">Technical Workshop</a>
+            <a href="#hackathon">Hackathon</a>
+            <a href="#lecture">Guest Lecture</a>
+            <a href="#ieeeday">IEEE Day</a>
+            <a href="#development">Student Development</a>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <!-- Inauguration Ceremony -->
+            <div class="event-album" id="inauguration">
+                <div class="event-header">
+                    <h2>Inauguration Ceremony</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>September 15, 2023</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Inauguration ceremony stage">
+                        <div class="photo-overlay">Inauguration Stage</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Chief guest lighting lamp">
+                        <div class="photo-overlay">Lamp Lighting</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Group photo of committee">
+                        <div class="photo-overlay">Committee Members</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Audience attending inauguration">
+                        <div class="photo-overlay">Students Attending</div>
+                        <div class="photo-count">4</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Speaker addressing audience">
+                        <div class="photo-overlay">Keynote Address</div>
+                        <div class="photo-count">5</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Certificate distribution">
+                        <div class="photo-overlay">Certificate Distribution</div>
+                        <div class="photo-count">6</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Workshop -->
+            <div class="event-album" id="workshop">
+                <div class="event-header">
+                    <h2>Technical Workshop: IoT & Embedded Systems</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>October 10, 2023</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Workshop in progress">
+                        <div class="photo-overlay">Workshop Session</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Students working on circuits">
+                        <div class="photo-overlay">Hands-on Practice</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Instructor explaining concept">
+                        <div class="photo-overlay">Expert Guidance</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="IoT devices on display">
+                        <div class="photo-overlay">IoT Devices</div>
+                        <div class="photo-count">4</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hackathon -->
+            <div class="event-album" id="hackathon">
+                <div class="event-header">
+                    <h2>24-Hour Hackathon / Coding Contest</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>November 5-6, 2023</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hackathon opening">
+                        <div class="photo-overlay">Hackathon Opening</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Participants coding">
+                        <div class="photo-overlay">Coding Session</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team collaboration">
+                        <div class="photo-overlay">Team Collaboration</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Final presentations">
+                        <div class="photo-overlay">Final Presentation</div>
+                        <div class="photo-count">4</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Winners announcement">
+                        <div class="photo-overlay">Winners Announcement</div>
+                        <div class="photo-count">5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guest Lecture -->
+            <div class="event-album" id="lecture">
+                <div class="event-header">
+                    <h2>Guest Lecture: Future of AI in Engineering</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>December 3, 2023</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Guest speaker on stage">
+                        <div class="photo-overlay">Guest Speaker</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Interactive Q&A session">
+                        <div class="photo-overlay">Q&A Session</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Attentive audience">
+                        <div class="photo-overlay">Engaged Audience</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IEEE Day Celebration -->
+            <div class="event-album" id="ieeeday">
+                <div class="event-header">
+                    <h2>IEEE Day Celebration</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>October 5, 2023</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="IEEE Day decorations">
+                        <div class="photo-overlay">IEEE Day Setup</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Group activities">
+                        <div class="photo-overlay">Group Activities</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cake cutting ceremony">
+                        <div class="photo-overlay">Cake Cutting</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="IEEE Day group photo">
+                        <div class="photo-overlay">Group Photo</div>
+                        <div class="photo-count">4</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Development Program -->
+            <div class="event-album" id="development">
+                <div class="event-header">
+                    <h2>Student Development Program</h2>
+                    <div class="event-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>January 20, 2024</span>
+                    </div>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Leadership workshop">
+                        <div class="photo-overlay">Leadership Session</div>
+                        <div class="photo-count">1</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team building exercise">
+                        <div class="photo-overlay">Team Building</div>
+                        <div class="photo-count">2</div>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Presentation skills training">
+                        <div class="photo-overlay">Presentation Skills</div>
+                        <div class="photo-count">3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-logo">IEEE Student Branch</div>
+            <p>Advancing Technology for Humanity</p>
+            
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="team.html">Committee</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 IEEE Student Branch. All rights reserved. | Part of the world's largest technical professional organization</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth scrolling for event navigation
+        document.querySelectorAll('.event-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add active class to current section in view
+        window.addEventListener('scroll', () => {
+            const eventAlbums = document.querySelectorAll('.event-album');
+            const scrollPosition = window.scrollY + 150;
+            
+            eventAlbums.forEach(album => {
+                const albumTop = album.offsetTop;
+                const albumHeight = album.offsetHeight;
+                
+                if (scrollPosition >= albumTop && scrollPosition < albumTop + albumHeight) {
+                    const albumId = album.getAttribute('id');
+                    document.querySelectorAll('.event-nav a').forEach(link => {
+                        if (link.getAttribute('href') === `#${albumId}`) {
+                            link.style.backgroundColor = 'var(--primary-blue)';
+                            link.style.color = 'var(--white)';
+                            link.style.borderColor = 'var(--primary-blue)';
+                        } else {
+                            link.style.backgroundColor = '';
+                            link.style.color = '';
+                            link.style.borderColor = '';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
